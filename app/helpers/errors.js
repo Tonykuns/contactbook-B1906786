@@ -1,5 +1,5 @@
 const handle = promise =>{
-    return promise.then(data => [null, data]).catch(error => [error, undefined])
+    return promise.then(data => [null, data]).catch(error => [error, undefined]);
 
 }
 
@@ -15,4 +15,4 @@ class BadRequestError extends Error{
 module.exports={
     handle,
     BadRequestError
-}
+};
