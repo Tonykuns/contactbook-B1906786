@@ -1,8 +1,11 @@
 const express = require('express');
 const cors = require('cors');
 const config  = require('./app/config');
+const setupContactRouters = require('./app/router/contact.router'); 
 
 const app = express();
+
+setupContactRouters(app);
 
 app.use(cors({origin : config.app.origins}))
 
@@ -17,5 +20,5 @@ app.get("/", (req, res) => {
 const PORT = config.app.port;
 
 app.listen(PORT, () =>{
-    console.log('Server is running on port ${PORT}')
+    console.log(`Server is running on port ${PORT}`)
 })
