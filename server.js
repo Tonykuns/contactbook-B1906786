@@ -4,7 +4,23 @@ const config  = require('./app/config');
 const setupContactRouters = require('./app/router/contact.router'); 
 const {BadRequestError}  = require('./app/helpers/errors');
 
+const db = require("./app/models");
+
+db.mongoose.connect(config.db.url)
+    .then(() => {
+        console.log("Connected to the database!");
+    })
+
+    .catch((error)=>{
+        console.log("Cannot connect to the database!", error);
+        process.exit();
+    });
+
 const app = express();
+
+app.use(cors({origin : config.app.origins}));
+app.use(express.json());
+app.use(express.urlencoded({extended: true}));
 
 setupContactRouters(app);
 
@@ -17,12 +33,6 @@ app.use((err, req, res, next) =>{
     res.status(err.statusCode || 500).json({
         message: err.message || "Internal Server Error."})
 });
-
-app.use(cors({origin : config.app.origins}));
-
-app.use(express.json());
-
-app.use(express.urlencoded({extended: true}));
 
 app.get("/", (req, res) => {
     res.json({message: "Welcome to contact book application!!"});
